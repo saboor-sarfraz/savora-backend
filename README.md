@@ -127,6 +127,8 @@ GROQ_API_KEY=your_groq_api_key_here
 
 You can also include any other required settings such as the frontend origin if needed.
 
+`DB_URL` is optional. If it is not set, the backend uses process-local in-memory SQLite for orders; that data is lost when the service restarts and is not shared between Cloud Run instances. Use a persistent database URL if order history must survive restarts or scaling.
+
 ### 4. Run the backend
 
 ```bash
