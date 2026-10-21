@@ -4,8 +4,36 @@ import type { BackendChatResponse, CartItem } from '@/lib/types';
 
 export const runtime = 'nodejs';
 
+async function proxyToBackend(req: NextRequest, backendUrl: string) {
+  const headers = new Headers({
+    'Content-Type': req.headers.get('content-type') ?? 'application/json',
+  });
+  const cookie = req.headers.get('cookie');
+  if (cookie) headers.set('Cookie', cookie);
+
+  const upstream = await fetch(`${backendUrl}/api/chat`, {
+    method: 'POST',
+    headers,
+    body: await req.text(),
+    cache: 'no-store',
+  });
+
+  const responseHeaders = new Headers({
+    'Content-Type': upstream.headers.get('content-type') ?? 'application/json',
+    'Cache-Control': 'no-store',
+  });
+  const setCookie = upstream.headers.get('set-cookie');
+  if (setCookie) responseHeaders.set('Set-Cookie', setCookie);
+
+  return new NextResponse(upstream.body, {
+    status: upstream.status,
+    headers: responseHeaders,
+  });
+}
+
 /**
- * Demo chat endpoint.
+ * Chat endpoint. Proxies to the Python backend when BACKEND_URL is configured;
+ * otherwise uses demo replies for local development.
  *
  * TODO: Replace this entire handler with a call to your real backend / LLM.
  * The frontend already renders any structured response that matches
@@ -22,6 +50,11 @@ export const runtime = 'nodejs';
  * }
  */
 export async function POST(req: NextRequest) {
+  const backendUrl = process.env.BACKEND_URL?.replace(/\/+$/, '');
+  if (backendUrl) {
+    return proxyToBackend(req, backendUrl);
+  }
+
   try {
     const body = await req.json();
     const message: string = (body?.message ?? '').toLowerCase().trim();
@@ -45,7 +78,7 @@ export async function POST(req: NextRequest) {
 
 /**
  * Lightweight demo "intelligence" — keyword based, purely for the portfolio
- * experience. Replace `buildDemoReply` with your real backend call.
+ * experience, used only when BACKEND_URL is not configured.
  */
 function buildDemoReply(message: string, _conversation: unknown): BackendChatResponse {
   const has = (...keys: string[]) => keys.some((k) => message.includes(k));

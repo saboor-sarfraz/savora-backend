@@ -167,16 +167,14 @@ export function useChat() {
 export { SUGGESTED_PROMPTS };
 
 /**
- * Default sender — calls the backend chat endpoint.
- * Replace `sendFn` on the provider to mock or redirect.
- *
- * TODO: Replace with your real backend endpoint when wiring up.
+ * Default sender — calls the same-origin API route, which proxies to the
+ * backend when BACKEND_URL is configured.
  */
 async function defaultSend(
   message: string,
   conversation: ChatMessage[]
 ): Promise<BackendChatResponse> {
-  const response = await fetch('http://localhost:8000/api/chat', {
+  const response = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
