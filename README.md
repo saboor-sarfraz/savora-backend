@@ -123,9 +123,11 @@ Create a `.env` file in the project root and add your Groq API key:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-120b
 ```
 
 You can also include any other required settings such as the frontend origin if needed.
+`GROQ_MODEL` is optional; it defaults to `openai/gpt-oss-120b`.
 
 `DB_URL` is optional. If it is not set, the backend uses process-local in-memory SQLite for orders; that data is lost when the service restarts and is not shared between Cloud Run instances. Use a persistent database URL if order history must survive restarts or scaling.
 
