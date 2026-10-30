@@ -1,4 +1,4 @@
-import { MapPin, Navigation } from 'lucide-react';
+import { Navigation } from 'lucide-react';
 import { PageHeader } from '@/components/site/page-header';
 import { SectionHeading } from '@/components/site/section-heading';
 import {
@@ -27,50 +27,37 @@ export default function ContactPage() {
             <div className="space-y-6">
               <ContactInfo />
 
-              {/* Map placeholder */}
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border/60 bg-card/40">
-                <div className="absolute inset-0 bg-gradient-to-br from-muted/40 to-card/60" />
-                <div
-                  className="absolute inset-0 opacity-40"
-                  style={{
-                    backgroundImage:
-                      'linear-gradient(rgba(120,120,120,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(120,120,120,0.15) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
-                  }}
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(RESTAURANT.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Get directions to Savora at ${RESTAURANT.address} in Google Maps`}
+                className="group relative block aspect-[4/3] overflow-hidden rounded-2xl border border-border/60 bg-card/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <iframe
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(RESTAURANT.address)}&z=15&output=embed`}
+                  title={`Map showing ${RESTAURANT.address}`}
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="pointer-events-none absolute inset-0 h-full w-full border-0 transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-                {/* Fake roads */}
-                <div className="absolute left-0 right-0 top-1/2 h-2 -translate-y-1/2 bg-muted/30" />
-                <div className="absolute bottom-1/3 left-0 right-1/3 h-1.5 bg-muted/20" />
-                <div className="absolute bottom-0 left-1/2 top-0 w-2 bg-muted/30" />
+                <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
 
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="relative">
-                    <span className="absolute inset-0 animate-ping rounded-full bg-primary/40" />
-                    <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-2xl">
-                      <MapPin className="h-6 w-6" />
-                    </span>
-                  </div>
-                </div>
-
-                <div className="glass-strong absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl p-3">
+                <div className="glass-strong pointer-events-none absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl p-3">
                   <div>
                     <p className="text-sm font-semibold">Savora HQ</p>
                     <p className="text-xs text-muted-foreground">
                       {RESTAURANT.address}
                     </p>
                   </div>
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(RESTAURANT.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Get directions to Savora at ${RESTAURANT.address} in Google Maps`}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
+                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors group-hover:bg-primary/90">
                     <Navigation className="h-3.5 w-3.5" />
                     Directions
-                  </a>
+                  </span>
                 </div>
-              </div>
+              </a>
             </div>
 
             {/* Reservation form */}
