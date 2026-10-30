@@ -13,7 +13,7 @@ export const RESTAURANT = {
   ],
   social: {
     instagram: 'https://instagram.com',
-    twitter: 'https://twitter.com',
+    twitter: 'https://x.com',
     facebook: 'https://facebook.com',
   },
 };

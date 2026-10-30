@@ -59,10 +59,16 @@ export default function ContactPage() {
                       {RESTAURANT.address}
                     </p>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(RESTAURANT.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Get directions to Savora at ${RESTAURANT.address} in Google Maps`}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
                     <Navigation className="h-3.5 w-3.5" />
                     Directions
-                  </span>
+                  </a>
                 </div>
               </div>
             </div>
