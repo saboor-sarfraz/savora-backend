@@ -132,11 +132,6 @@ export function AiAssistantSection() {
               <p className="font-display text-lg font-semibold">
                 Built for natural conversation
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                The assistant is ready to connect to your backend. It already
-                renders structured cart updates, tool calls, and suggested
-                prompts — just point it at your API.
-              </p>
             </motion.div>
           </motion.div>
         </motion.div>
